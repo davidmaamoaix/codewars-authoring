@@ -1,0 +1,7 @@
+start = lambda f: f([])
+end = lambda s: s.pop()
+push = lambda s: lambda n: lambda f: f([*s, n])
+add = lambda s: lambda f: f([*s[: -2], s[-1] + s[-2]])
+sub = lambda s: lambda f: f([*s[: -2], s[-1] - s[-2]])
+mul = lambda s: lambda f: f([*s[: -2], s[-1] * s[-2]])
+div = lambda s: lambda f: f([*s[: -2], s[-1] // s[-2]])
