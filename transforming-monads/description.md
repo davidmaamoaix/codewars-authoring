@@ -2,7 +2,7 @@ _This kata aims to teach you the basics of monad transformers, what they are, an
 
 Monads are useful and fun. However, there are times when a single monad just isn't enough; what if you want a list of `Maybe`? Perhaps a `State` that produces a `Reader`?
 
-The composition of functors are easy; all you do is defined a composition functor:
+The composition of functors is easy; all you need to do is to defined a composition functor:
 
 ```haskell
 newtype Compose f g a = Compose { runCompose :: (f (g a)) }
@@ -11,7 +11,6 @@ newtype Compose f g a = Compose { runCompose :: (f (g a)) }
 Now define `Functor` and `Applicative` instances for `Compose`! I'm sure that's trivial for an amazing code warrior like you.
 
 With the new `Compose` of functors, we got to do stuff like this:
-
 ```haskell
 addToListOfMaybeInt :: Int -> Compose [] Maybe Int -> Compose [] Maybe Int
 addToListOfMaybeInt n a = (+ n) <$> a
