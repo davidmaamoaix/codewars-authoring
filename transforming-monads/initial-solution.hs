@@ -1,6 +1,18 @@
 module TransformingMonads where
 
 
+-- to start off, let's define Functor and Applicative instances for Compose
+
+newtype Compose f g a = Compose { runCompose :: f (g a) }
+
+instance (Functor f, Functor g) => Functor (Compose f g) where
+    fmap = undefined
+
+instance (Applicative f, Applicative g) => Applicative (Compose f g) where
+    pure = undefined
+    (<*>) = undefined
+
+
 -- definitions of transformers
 
 newtype IdentityT m a = IdentityT { runIdentity :: m a } deriving Show
