@@ -2,9 +2,9 @@ Thomas opened Vim on his computer, and now he is stuck in it! Help Thomas figure
 
 ## Task
 
-Thomas' Vim is currently in "Normal" mode.
+Vim is a text editor. Thomas' Vim is currently in "Normal" mode.
 
-You are given a `Keyboard` intsobject with the method `key_down` and `key_up`. Invoke the methods with the appropiate keys that executes the command to save and quit Vim.
+You are given a `Keyboard` object with the method `key_down` and `key_up`. Invoke the methods with the appropiate keys, so that you execute commands to save the current file and quit Vim.
 
 The keys should be entered in string format:
 ```python
@@ -15,7 +15,7 @@ board.key_up('a') # releases 'a' before pressing it again
 board.key_down('a')
 ```
 
-The above code will enter `aBa` into Thomas's computer.
+The above code will enter `aBa` into Thomas' computer.
 
 Good luck!
 
@@ -29,4 +29,4 @@ Good luck!
 - Pressing `;` when `shift` is pressed will enter `:` into the computer.
 - Stuck? Check out [this Vim command guide](https://learnbyexample.gitbooks.io/vim-reference/content/Command_Line_mode.html).
 - Capitalization of commands matters! `:w` is different from `:W`.
-
+- Remember to press the `enter` key after entering commands ;)
