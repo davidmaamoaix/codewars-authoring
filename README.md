@@ -1,2 +1,3 @@
-# codewars-author
+# Codewars Authoring
+
 My authored katas on Codewars.
