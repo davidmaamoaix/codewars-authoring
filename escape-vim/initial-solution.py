@@ -1,0 +1,11 @@
+def help_me_exit_vim_or_i_will_miss_mid_term_due_and_fail_fp_course(keyboard):
+    keyboard.key_down('shift')
+    keyboard.key_down(';')
+    keyboard.key_up(';')
+    keyboard.key_up('shift')
+    keyboard.key_down('w')
+    keyboard.key_up('w')
+    keyboard.key_down('q')
+    keyboard.key_up('q')
+    keyboard.key_down('enter')
+    keyboard.key_up('enter')

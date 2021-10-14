@@ -15,13 +15,13 @@ instance (Applicative f, Applicative g) => Applicative (Compose f g) where
 
 -- definitions of transformers
 
-newtype IdentityT m a = IdentityT { runIdentity :: m a } deriving Show
-newtype MaybeT m a = MaybeT { runMaybe :: m (Maybe a) } deriving Show
-newtype ListT m a = ListT { runList :: m [a] } deriving Show
-newtype StateT s m a = StateT { runStateT :: s -> m (a, s) } deriving Show
-newtype ReaderT r m a = ReaderT {runReader :: r -> m a } deriving Show
-newtype WriterT w m a = WriterT { runWriter :: m (a, w) } deriving Show
-newtype EitherT e m a = EitherT { runEither :: m (Either e a) } deriving Show
+newtype IdentityT m a = IdentityT { runIdentity :: m a }
+newtype MaybeT m a = MaybeT { runMaybe :: m (Maybe a) }
+newtype ListT m a = ListT { runList :: m [a] }
+newtype StateT s m a = StateT { runStateT :: s -> m (a, s) }
+newtype ReaderT r m a = ReaderT {runReader :: r -> m a }
+newtype WriterT w m a = WriterT { runWriter :: m (a, w) }
+newtype EitherT e m a = EitherT { runEither :: m (Either e a) }
 
 
 -- the IdentityT monad has already been defined for you
@@ -31,10 +31,10 @@ instance Functor m => Functor (IdentityT m) where
   
 instance Applicative m => Applicative (IdentityT m) where
   pure = IdentityT . pure
-  IdentityT f <*> IdentityT a = IdentityT $ f <$> a
+  IdentityT f <*> IdentityT a = IdentityT $ f <*> a
   
 instance Monad m => Monad (IdentityT m) where
-  IdentityT a >>= f = IdentityT $ a >>= f
+  IdentityT a >>= f = IdentityT $ a >>= (runIdentity . f)
 
 
 -- MaybeT
@@ -46,7 +46,7 @@ instance Applicative m => Applicative (MaybeT m) where
   pure = undefined
   (<*>) = undefined
   
-instance Monad m => Monad (IdentityT m) where
+instance Monad m => Monad (MaybeT m) where
   (>>=) = undefined
   
   
@@ -78,14 +78,14 @@ instance Monad m => Monad (StateT s m) where
   
 -- ReaderT
   
-instance Functor m => Functor (Reader r m) where
+instance Functor m => Functor (ReaderT r m) where
   fmap = undefined
   
-instance Applicative m => Applicative (Reader r m) where
+instance Applicative m => Applicative (ReaderT r m) where
   pure = undefined
   (<*>) = undefined
   
-instance Monad m => Monad (Reader r m) where
+instance Monad m => Monad (ReaderT r m) where
   (>>=) = undefined
   
   
@@ -104,13 +104,13 @@ instance Monad m => Monad (WriterT w m) where
 
 -- EitherT (this is called ExceptT in Control.Monad.Trans)
   
-instance Functor m => Functor (Either e m) where
+instance Functor m => Functor (EitherT e m) where
   fmap = undefined
   
-instance Applicative m => Applicative (Either e m) where
+instance Applicative m => Applicative (EitherT e m) where
   pure = undefined
   (<*>) = undefined
   
-instance Monad m => Monad (Either e m) where
+instance Monad m => Monad (EitherT e m) where
   (>>=) = undefined
   
