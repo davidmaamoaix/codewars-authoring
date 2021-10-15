@@ -9,6 +9,7 @@ class Keyboard:
         self.__exited = False
         self.__cmd_mode = False
         self.__curr = ''
+        self.__side = ''
 
     @property
     def broken(self):
@@ -30,14 +31,20 @@ class Keyboard:
         if self.__exited or not self.__cmd_mode: return
         self.__cmd_mode = False
 
-        for i in self.__curr:
-            if i == 'w':
-                self.__saved = True
-            elif i == 'q':
-                self.__exited = True
-                break
+        if self.__curr == 'w':
+            self.__saved = True
+        elif self.__curr == 'q':
+            self.__exited = True
+        elif self.__curr == 'wq' or self.__curr == 'x':
+            self.__saved = True
+            self.__exited = True
 
         self.__curr = ''
+
+    def __check_side(self):
+        if self.__side[-2 :] == 'ZZ':
+            self.__saved = True
+            self.__exited = True
 
     def key_down(self, key):
         key = key.lower()
@@ -58,11 +65,16 @@ class Keyboard:
                 self.__curr += k
             else:
                 self.__cmd_mode = True
+                self.__side = ''
         elif key == 'shift':
             pass
         else:
             key = key.upper() if 'shift' in self.__down else key
-            self.__curr += key
+            if self.__cmd_mode:
+                self.__curr += key
+            else:
+                self.__side += key
+                self.__check_side()
 
     def key_up(self, key):
         key = key.lower()

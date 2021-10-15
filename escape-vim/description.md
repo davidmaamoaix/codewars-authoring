@@ -4,7 +4,7 @@ Thomas opened Vim on his computer, and now he is stuck in it! Help Thomas figure
 
 Vim is a text editor. Thomas' Vim is currently in "Normal" mode.
 
-You are given a `Keyboard` object with the method `key_down` and `key_up`. Invoke the methods with the appropiate keys, so that you execute commands to save the current file and quit Vim.
+You are given a `Keyboard` object with the method `key_down` and `key_up`. Invoke the methods with the appropriate keys, so that you execute commands to save the current file and quit Vim.
 
 The keys should be entered in string format:
 ```python
@@ -12,6 +12,7 @@ board.key_down('a') # presses down the 'A' key
 board.key_down('shift')  # presses down the 'shift' key
 board.key_down('b') # presses 'b'; since 'shift' is already down, the input will be capital 'B'
 board.key_up('a') # releases 'a' before pressing it again
+board.key_up('shift') # re;eases the 'shift' key
 board.key_down('a')
 ```
 
