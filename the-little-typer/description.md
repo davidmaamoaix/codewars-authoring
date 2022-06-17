@@ -1,4 +1,4 @@
-In this kata, you are going to infer the type of an expression based on a given context. Your goal is to implement the `Program` class so that it can be instantiated with a string of context like:
+In this kata, you are going to infer the type of an expression based on a given context. Your goal is to implement the `infer_type` function so that it can take in a context like:
 
 ```python
 """
@@ -36,7 +36,10 @@ expression := [a-z][a-zA-Z0-9]*
 ```
 (the second production rule is function application)
 
+If the expression is ill-formed (e.g. doing `foo param` when `foo` is not a function, or `param` is not of the type that `foo` expects), then throw an error.
+
 ## Notes
 - Functions are values!!! They can be passed as an argument to another function.
 - Functions can be partially applied, e.g. `A -> B -> C` applied to a value of type `A` should be of type `B -> C`.
-- Your solution must be able to handle extra whitespaces and parenthesis in both the context and the expression, e.g. `myFunc:A ->   (((B) -> C))` for context, and `func (val)` for expression.
+- Your code must be able to handle extra whitespaces and parentheses in both the context and the expression, e.g. `myFunc:A ->   (((B) -> C))` for context, and `func (val)` for expression.
+- The return value of `infer_type` must not contain any unnecessary parentheses, e.g. `A -> (B -> C)` should be written as `A -> B -> C`. The return value is allowed to contain extra spaces though.
