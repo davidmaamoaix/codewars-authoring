@@ -26,12 +26,12 @@ type := [A-Z][a-zA-Z0-9]*
       | '(' type ')'
 ```
 
-Note that the arrow `->` in a type is right associative (due to [currying](https://en.wikipedia.org/wiki/Currying)), i.e. `A -> B -> C -> D` is equivalent to `A -> (B -> (C -> D))`.
+Note that the arrow `->` in a type is right associative (due to [currying](https://en.wikipedia.org/wiki/Currying)), i.e. `A -> B -> C -> D` is equivalent to `A -> (B -> (C -> D))`. As another example, the type signature `f : A -> B -> C` actually means `f : A -> (B -> C)`, which read as "the function `f` takes in a value of type `A` and returns a function of type `B -> C`". Therefore, calling the function like `(f a) b` can be simplified to `f a b` as function application is left-associative.
 
 The syntax for an `expression` (whose type is to be evaluated by the `infer_type` method) is:
 ```
 expression := [a-z][a-zA-Z0-9]*
-            | expression expression
+            | expression ' ' expression
             | '(' expression ')'
 ```
 (the second production rule is function application)

@@ -11,12 +11,25 @@ b : B
 
 func_ctx = '''
 myValue : A
-concat : List -> List -> List
-append : List -> A -> List
-map : (A -> B) -> (List -> List)
+concat : (List -> (List -> (List)))
+append : List->    A->List
+map  :  (A   ->   B) -> (List -> List)
 
-conv : (A -> B)
-pure : A -> List
+conv : (A->B)
+pure  : A->List
+'''.strip()
+
+comp_ctx = '''
+a:A
+b:B
+c:A
+d:B
+
+aB : A -> B
+bA : B -> A
+
+id : (A -> B) -> (B -> A) -> (A -> A)
+inv : (A -> B) -> (B -> A)
 '''.strip()
 
 def cmp(a, b, msg=None):
@@ -82,3 +95,21 @@ def func_tests():
         test.expect_error('Too many arguments to "pure"', lambda c=ctx: infer_type(c, 'pure myValue myValue'))
         test.expect_error('Too many arguments to "concat"', lambda c=ctx: infer_type(c, 'concat (pure myValue) (pure myValue) (pure myValue)'))
         test.expect_error('"map conv myValue": "myValue" is not of type "List"', lambda c=ctx: infer_type(c, 'map conv myValue'))
+
+@test.describe('Harder: Some Compositions')
+def func_tests():
+    ctx = comp_ctx
+
+    print('Testing with context:\n')
+    print(ctx)
+
+    @test.it("Functions are Values")
+    def basics():
+        check(ctx, 'inv  ( aB )  b', 'A')
+        check(ctx, 'inv  ( aB )  d', 'A')
+        check(ctx, '( ( id  aB )  bA )', 'A -> A')
+        check(ctx, '( ( id  aB )  bA ) a', 'A')
+        check(ctx, '( ( id  aB )  bA ) c', 'A')
+        check(ctx, 'aB  ( ( ( id  aB )  bA ) c )', 'B')
+        check(ctx, 'bA ( aB  ( ( ( id  aB )  bA ) c ) )', 'A')
+        check(ctx, '( ( id  aB )  bA ) ( bA ( aB  ( ( ( id  aB )  bA ) c ) ) )', 'A')
