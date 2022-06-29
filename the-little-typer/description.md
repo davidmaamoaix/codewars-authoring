@@ -1,3 +1,5 @@
+*Note: this kata assumes that you are familiar with basic functional programming.*
+
 In this kata, you are going to infer the type of an expression based on a given context. Your goal is to implement the `infer_type` function so that it can take in a context like:
 
 ```python
@@ -36,7 +38,12 @@ expression := [a-z][a-zA-Z0-9]*
 ```
 (the second production rule is function application)
 
-If the expression is ill-formed (e.g. doing `foo param` when `foo` is not a function, or `param` is not of the type that `foo` expects), then throw an error.
+## Error-Handling
+
+All inputs will be in valid syntax; however, your code should __raise an error__ in the following cases:
+- a value in the expression is not declared in the context
+- function application on a value (e.g. `foo param` when `foo` is not a function)
+- invoking a function with a value of an incorrect type (e.g. applying value of type `C` to a function of type `A -> B`)
 
 ## Notes
 - Functions are values!!! They can be passed as an argument to another function.
