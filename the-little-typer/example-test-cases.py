@@ -1,38 +1,11 @@
 from solution import infer_type
 import codewars_test as test
 
-basic_ctx = '''
-conv : A -> B
-coconv : B -> A
-
-a : A
-b : B
-'''.strip()
-
-func_ctx = '''
-myValue : A
-concat : (List -> (List -> (List)))
-append : List->    A->List
-map  :  (A   ->   B) -> (List -> List)
-
-conv : (A->B)
-pure  : A->List
-'''.strip()
-
-comp_ctx = '''
-a:A
-b:B
-c:A
-d:B
-
-aB : A -> B
-bA : B -> A
-
-id : (A -> B) -> (B -> A) -> (A -> A)
-inv : (A -> B) -> (B -> A)
-'''.strip()
 
 def cmp(a, b, msg=None):
+    if a is None:
+        return test.fail('Return type must not be None')
+
     test.assert_equals(a.replace(' ', ''), b.replace(' ', ''), msg)
 
 def check(ctx, raw, expected):
@@ -40,7 +13,14 @@ def check(ctx, raw, expected):
 
 @test.describe("Basic Context")
 def tests():
-    ctx = basic_ctx
+    ctx = '''
+    conv : A -> B
+    coconv : B -> A
+
+    a : A
+    b : B
+    '''.strip()
+    ctx = '\n'.join(i.strip() for i in ctx.split('\n') if i)
 
     print('Testing with context:\n')
     print(ctx)
@@ -61,10 +41,20 @@ def tests():
         test.expect_error('"conv" should not accept type "B"', lambda c=ctx: infer_type(c, 'conv b'))
         test.expect_error('"coconv" should not accept type "A"', lambda c=ctx: infer_type(c, 'coconv a'))
         test.expect_error('"a conv" is ill-formed', lambda c=ctx: infer_type(c, 'a conv'))
+        test.expect_error('"banana" is undefined', lambda c=ctx: infer_type(c, 'conv banana'))
 
 @test.describe('Slightly Harder: Functions are Values')
 def func_tests():
-    ctx = func_ctx
+    ctx = '''
+    myValue : A
+    concat : (List -> (List -> (List)))
+    append : List->    A->List
+    map  :  (A   ->   B) -> (List -> List)
+
+    conv : (A->B)
+    pure  : A->List
+    '''.strip()
+    ctx = '\n'.join(i.strip() for i in ctx.split('\n') if i)
 
     print('Testing with context:\n')
     print(ctx)
@@ -98,7 +88,19 @@ def func_tests():
 
 @test.describe('Harder: Some Compositions')
 def func_tests():
-    ctx = comp_ctx
+    ctx = '''
+    id : (A -> B) -> (B -> A) -> (A -> A)
+    inv : (A -> B) -> (B -> A)
+
+    a:A
+    b:B
+    c:A
+    d:B
+
+    aB : A -> B
+    bA : B -> A
+    '''.strip()
+    ctx = '\n'.join(i.strip() for i in ctx.split('\n') if i)
 
     print('Testing with context:\n')
     print(ctx)
